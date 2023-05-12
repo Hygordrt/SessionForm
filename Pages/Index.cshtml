@@ -1,0 +1,117 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<form method="post" asp-page-handler="Etapa1">
+    <label for="dado-etapa1">Dado Etapa 1:</label>
+    <input type="text" id="dado-etapa1" name="DadoEtapa1" />
+    <button type="submit">Próxima Etapa</button>
+</form>
+
+<form method="post" asp-page-handler="Etapa2">
+    <label for="dado-etapa2">Dado Etapa 2:</label>
+    <input type="number" id="dado-etapa2" name="DadoEtapa2" />
+    <button type="submit">Próxima Etapa</button>
+</form>
+
+<form method="post" asp-page-handler="Etapa3">
+    <label for="dado-etapa3">Dado Etapa 3:</label>
+    <input type="checkbox" id="dado-etapa3" name="DadoEtapa3" />
+    <button type="submit">Próxima Etapa</button>
+</form>
+
+<form method="post" asp-page-handler="Etapa4">
+    <label for="dado-etapa4">Dado Etapa 4:</label>
+    <input type="datetime-local" id="dado-etapa4" name="DadoEtapa4" />
+    <button type="submit">Enviar</button>
+</form>
+
+
+
+@*<form method="post">
+    <div class="form-step" id="step1">
+        <h2>Step 1</h2>
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" />
+        <button type="button" class="next-btn">Next</button>
+    </div>
+    <div class="form-step" id="step2" style="display: none">
+        <h2>Step 2</h2>
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" />
+        <button type="button" class="prev-btn">Previous</button>
+        <button type="button" class="next-btn">Next</button>
+    </div>
+    <div class="form-step" id="step3" style="display: none">
+        <h2>Step 3</h2>
+        <label for="phone">Phone:</label>
+        <input type="tel" id="phone" name="phone" />
+        <button type="button" class="prev-btn">Previous</button>
+        <button type="button" class="next-btn">Next</button>
+    </div>
+    <div class="form-step" id="step4" style="display: none">
+        <h2>Step 4</h2>
+        <label for="message">Message:</label>
+        <textarea id="message" name="message"></textarea>
+        <button type="button" class="prev-btn">Previous</button>
+        <button type="submit">Submit</button>
+    </div>
+</form>*@
+
+<script>
+    var formSteps = document.querySelectorAll('.form-step');
+    var prevBtns = document.querySelectorAll('.prev-btn');
+    var nextBtns = document.querySelectorAll('.next-btn');
+    var form = document.querySelector('form');
+
+    function showStep(step) {
+        for (var i = 0; i < formSteps.length; i++) {
+            formSteps[i].style.display = 'none';
+        }
+        formSteps[step].style.display = 'block';
+    }
+
+    function navigateTo(step) {
+        showStep(step);
+        if (step === 0) {
+            for (var i = 0; i < prevBtns.length; i++) {
+                prevBtns[i].style.display = 'none';
+            }
+        } else {
+            for (var i = 0; i < prevBtns.length; i++) {
+                prevBtns[i].style.display = 'inline-block';
+            }
+        }
+        if (step === formSteps.length - 1) {
+            for (var i = 0; i < nextBtns.length; i++) {
+                nextBtns[i].style.display = 'none';
+            }
+        } else {
+            for (var i = 0; i < nextBtns.length; i++) {
+                nextBtns[i].style.display = 'inline-block';
+            }
+        }
+    }
+
+    function handlePrevBtnClick(event) {
+        var currentStep = event.target.closest('.form-step');
+        navigateTo(Array.prototype.indexOf.call(formSteps, currentStep) - 1);
+    }
+
+    function handleNextBtnClick(event) {
+        var currentStep = event.target.closest('.form-step');
+        navigateTo(Array.prototype.indexOf.call(formSteps, currentStep) + 1);
+    }
+
+    for (var i = 0; i < prevBtns.length; i++) {
+        prevBtns[i].addEventListener('click', handlePrevBtnClick);
+    }
+
+    for (var i = 0; i < nextBtns.length; i++) {
+        nextBtns[i].addEventListener('click', handleNextBtnClick);
+    }
+
+    navigateTo(0);
+</script>
